@@ -30,6 +30,9 @@ const RootQuery = new GraphQLObjectType({
           type: GraphQLString,
         },
       },
+      resolve(parentValue, args) {
+        
+      }
     },
   },
 });
