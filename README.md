@@ -1,5 +1,2 @@
-###### Udemy Course
-
-#### GraphQL with React: The Complete Developers Guide
-
-Created by Stephen Grider
+# Lyrical-GraphQL
+Starter project from a GraphQL course on Udemy.com
