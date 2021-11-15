@@ -1,15 +1,20 @@
 import React from 'react';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import SongList from './SongList';
-
-const client = new ApolloClient({});
+import SongCreate from './SongCreate';
 
 const App = () => {
   return (
-    <ApolloProvider client={client}>
-      <SongList />
-    </ApolloProvider>
+    <HashRouter>
+      <Routes>
+        <Route
+          path="/" element={<SongList />}
+        />
+        <Route
+          path="/song/new" element={<SongCreate />}
+        />
+      </Routes>
+    </HashRouter>
   );
 };
 

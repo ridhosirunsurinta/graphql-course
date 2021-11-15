@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
 
 class SongList extends Component {
   constructor(props) {
@@ -13,18 +15,25 @@ class SongList extends Component {
     const { data: { loading, songs } } = this.props;
 
     return (
-      <ul style={{ padding: 40 }} className="collection">
+      <Grid
+        container
+        justifyContent="flex-start"
+        alignItems="center"
+        sx={{ pt: 1 }}
+      >
         {!loading && songs.map((song) => {
           return (
-            <li
-              key={song.id}
-              className="collection-item"
-            >
-              {song.title}
-            </li>
+            <Grid item xs={12}>
+              <Card
+                key={song.id}
+                sx={{ p: 2, mb: 1, mx: 1 }}
+              >
+                {song.title}
+              </Card>
+            </Grid>
           );
         })}
-      </ul>
+      </Grid>
     );
   }
 }
