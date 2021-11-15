@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 class SongCreate extends Component {
   constructor(props) {
@@ -16,12 +18,24 @@ class SongCreate extends Component {
     this.setState({ title: e.target.value });
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { mutate } = this.props;
+    const { title } = this.state;
+
+    mutate({
+      variables: {
+        title,
+      }
+    });
+  };
+
   render() {
     const { title } = this.state;
 
     return (
-      <Grid container sx={{ p: 2 }}>
-        <Grid item>
+      <Grid container sx={{ p: 2}}>
+        <Grid item xs={12}>
           <Typography
             variant="h4"
             gutterBottom
@@ -31,14 +45,15 @@ class SongCreate extends Component {
             Create a New Song
           </Typography>
 
-          <form>
+          <form onSubmit={this.handleSubmit}>
             <TextField
               label="Song Title"
-              variant="outlined"
+              variant="standard"
               onChange={this.handleChange}
               InputLabelProps={{
                 shrink: true,
               }}
+              fullWidth
             />
           </form>
 
@@ -49,4 +64,13 @@ class SongCreate extends Component {
   }
 }
 
-export default SongCreate;
+const mutation = gql`
+  mutation AddSong($title: String) {
+    addSong(title: $title) {
+      id
+      title
+    }
+  }
+`;
+
+export default graphql(mutation)(SongCreate);
