@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { compose } from 'recompose';
 
 class SongCreate extends Component {
   constructor(props) {
@@ -22,14 +23,14 @@ class SongCreate extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { mutate } = this.props;
+    const { mutate, history } = this.props;
     const { title } = this.state;
 
     mutate({
       variables: {
         title,
       }
-    });
+    }).then(() => history.push('/'));
   };
 
   render() {
@@ -84,4 +85,7 @@ const mutation = gql`
   }
 `;
 
-export default graphql(mutation)(SongCreate);
+export default compose(
+  graphql(mutation),
+  withRouter,
+)(SongCreate);

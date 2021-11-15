@@ -1,19 +1,22 @@
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import SongList from './SongList';
 import SongCreate from './SongCreate';
 
 const App = () => {
   return (
     <HashRouter>
-      <Routes>
+      <Switch>
         <Route
-          path="/" element={<SongList />}
+          exact
+          path="/"
+          component={SongList}
         />
         <Route
-          path="/song/new" element={<SongCreate />}
+          path="/song/new"
+          component={SongCreate}
         />
-      </Routes>
+      </Switch>
     </HashRouter>
   );
 };

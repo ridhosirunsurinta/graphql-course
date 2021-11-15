@@ -26,11 +26,8 @@ class SongList extends Component {
       >
         {!loading && songs.map((song) => {
           return (
-            <Grid item xs={12}>
-              <Card
-                key={song.id}
-                sx={{ p: 2, mb: 1, mx: 1 }}
-              >
+            <Grid key={song.id} item xs={12}>
+              <Card sx={{ p: 2, mb: 1, mx: 1 }}>
                 {song.title}
               </Card>
             </Grid>
