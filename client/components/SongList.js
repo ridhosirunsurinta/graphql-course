@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 class SongList extends Component {
   constructor(props) {
@@ -33,6 +36,20 @@ class SongList extends Component {
             </Grid>
           );
         })}
+
+        <Fab
+          sx={{
+            position: 'absolute',
+            bottom: 16,
+            right: 16,
+          }}
+          color="primary"
+          component={Link}
+          to="/song/new"
+          // onClick={() => alert('Hi')}
+        >
+          <AddIcon />
+        </Fab>
       </Grid>
     );
   }

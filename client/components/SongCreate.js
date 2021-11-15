@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
@@ -31,16 +33,27 @@ class SongCreate extends Component {
   };
 
   render() {
-    const { title } = this.state;
-
     return (
       <Grid container sx={{ p: 2}}>
+        <Grid item xs={12}>
+          <Grid container>
+            <Button
+              variant="outlined"
+              size="small"
+              component={Link}
+              to="/"
+              sx={{ mb: 2, borderRadius: 25 }}
+            >
+              Back
+            </Button>
+          </Grid>
+        </Grid>
         <Grid item xs={12}>
           <Typography
             variant="h4"
             gutterBottom
             component="div"
-            sx={{ mb: 1 }}
+            sx={{ mb: 2 }}
           >
             Create a New Song
           </Typography>
@@ -56,8 +69,6 @@ class SongCreate extends Component {
               fullWidth
             />
           </form>
-
-          <pre>{JSON.stringify(title, null, 2)}</pre>
         </Grid>
       </Grid>
     );
