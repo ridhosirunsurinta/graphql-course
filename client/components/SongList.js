@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import fetchSongsQuery from '../queries/fetchSongs';
 
 class SongList extends Component {
   constructor(props) {
@@ -43,7 +43,6 @@ class SongList extends Component {
           color="primary"
           component={Link}
           to="/song/new"
-          // onClick={() => alert('Hi')}
         >
           <AddIcon />
         </Fab>
@@ -52,13 +51,4 @@ class SongList extends Component {
   }
 }
 
-const query = gql`
-  {
-    songs {
-      id
-      title
-    }
-  }
-`;
-
-export default graphql(query)(SongList);
+export default graphql(fetchSongsQuery)(SongList);

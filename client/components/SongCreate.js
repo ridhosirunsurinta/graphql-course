@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { compose } from 'recompose';
+import fetchSongsQuery from '../queries/fetchSongs';
 
 class SongCreate extends Component {
   constructor(props) {
@@ -29,7 +30,10 @@ class SongCreate extends Component {
     mutate({
       variables: {
         title,
-      }
+      },
+      refetchQueries: [{
+        query: fetchSongsQuery,
+      }]
     }).then(() => history.push('/'));
   };
 
