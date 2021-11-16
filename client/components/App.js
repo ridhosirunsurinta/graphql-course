@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import SongList from './SongList';
 import SongCreate from './SongCreate';
+import SongDetail from './SongDetail';
 
 const App = () => {
   return (
@@ -15,6 +16,10 @@ const App = () => {
         <Route
           path="/song/new"
           component={SongCreate}
+        />
+        <Route
+          path="/song/:id"
+          component={SongDetail}
         />
       </Switch>
     </HashRouter>

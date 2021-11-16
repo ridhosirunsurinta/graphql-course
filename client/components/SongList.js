@@ -10,6 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import fetchSongsQuery from '../queries/fetchSongs';
 
@@ -44,7 +46,7 @@ class SongList extends Component {
 
   handleDeleteSong = () => {
     const { songId } = this.state;
-    const { mutate, refetch } = this.props;
+    const { mutate } = this.props;
 
     this.handleCloseMenu();
 
@@ -52,24 +54,44 @@ class SongList extends Component {
       variables: {
         id: songId,
       },
-    }).then(() => refetch());
+      refetchQueries: [{
+        query: fetchSongsQuery,
+      }]
+    });
+
+    // mutate({
+    //   variables: {
+    //     id: songId,
+    //   },
+    // }).then(() => refetch());
   };
 
   render() {
     const { data: { loading, songs } } = this.props;
-    const { anchorEl, isMenuOpen } = this.state;
+    const { anchorEl, isMenuOpen, songId } = this.state;
 
     return (
       <Grid
         container
         justifyContent="flex-start"
         alignItems="center"
-        sx={{ pt: 1 }}
+        sx={{ p: 2 }}
       >
+        <Grid item xs={12}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            component="div"
+            sx={{ mb: 2 }}
+          >
+            Song List
+          </Typography>
+        </Grid>
+
         {!loading && songs.map((song) => {
           return (
             <Grid key={song.id} item xs={12}>
-              <Card sx={{ p: 2, mb: 1, mx: 1 }}>
+              <Card sx={{ p: 2, mb: 1 }}>
                 <Grid container alignContent="center">
                   <Grid item xs>
                     {song.title}
@@ -92,6 +114,9 @@ class SongList extends Component {
           open={isMenuOpen}
           onClose={this.handleCloseMenu}
         >
+          <MenuItem component={Link} to={`/song/${songId}`}>
+            <MusicNoteIcon /> See Detail
+          </MenuItem>
           <MenuItem onClick={this.handleDeleteSong}>
             <DeleteOutlineIcon /> Delete
           </MenuItem>
