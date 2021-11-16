@@ -6,17 +6,58 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import fetchSongsQuery from '../queries/fetchSongs';
 
 class SongList extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      anchorEl: null,
+      isMenuOpen: false,
+      songId: '',
+    };
   }
 
   componentDidMount() {};
 
+  handleOpenMenu = (e, songId) => {
+    this.setState({
+      anchorEl: e.currentTarget,
+      isMenuOpen: true,
+      songId,
+    });
+  };
+
+  handleCloseMenu = () => {
+    this.setState({
+      anchorEl: null,
+      isMenuOpen: false,
+      songId: '',
+    });
+  };
+
+  handleDeleteSong = () => {
+    const { songId } = this.state;
+    const { mutate, refetch } = this.props;
+
+    this.handleCloseMenu();
+
+    mutate({
+      variables: {
+        id: songId,
+      },
+    }).then(() => refetch());
+  };
+
   render() {
     const { data: { loading, songs } } = this.props;
+    const { anchorEl, isMenuOpen } = this.state;
 
     return (
       <Grid
@@ -28,13 +69,33 @@ class SongList extends Component {
         {!loading && songs.map((song) => {
           return (
             <Grid key={song.id} item xs={12}>
-
               <Card sx={{ p: 2, mb: 1, mx: 1 }}>
-                {song.title}
+                <Grid container alignContent="center">
+                  <Grid item xs>
+                    {song.title}
+                  </Grid>
+                  <Grid item>
+                    <IconButton
+                      onClick={(event) => this.handleOpenMenu(event, song.id)}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
               </Card>
             </Grid>
           );
         })}
+
+        <Menu
+          anchorEl={anchorEl}
+          open={isMenuOpen}
+          onClose={this.handleCloseMenu}
+        >
+          <MenuItem onClick={this.handleDeleteSong}>
+            <DeleteOutlineIcon /> Delete
+          </MenuItem>
+        </Menu>
 
         <Fab
           sx={{
