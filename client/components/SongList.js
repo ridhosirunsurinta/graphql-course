@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -27,6 +28,7 @@ class SongList extends Component {
         {!loading && songs.map((song) => {
           return (
             <Grid key={song.id} item xs={12}>
+
               <Card sx={{ p: 2, mb: 1, mx: 1 }}>
                 {song.title}
               </Card>
@@ -51,4 +53,12 @@ class SongList extends Component {
   }
 }
 
-export default graphql(fetchSongsQuery)(SongList);
+const mutation = gql`
+  mutation DeleteSong($id: ID) {
+    deleteSong(id: $id) {
+      id
+    }
+  }
+`;
+
+export default graphql(mutation)(graphql(fetchSongsQuery)(SongList));
