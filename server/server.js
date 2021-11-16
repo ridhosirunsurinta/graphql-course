@@ -3,6 +3,7 @@ const models = require('./models');
 const expressGraphQL = require('express-graphql').graphqlHTTP;
 const mongoose = require('mongoose');
 const schema = require('./schema/schema');
+const chalk = require('chalk');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.dev.js');
@@ -19,7 +20,7 @@ if (!MONGO_URI) {
 mongoose.Promise = global.Promise;
 mongoose.connect(MONGO_URI);
 mongoose.connection
-  .once('open', () => console.log('Connected to MongoDB instance.'))
+  .once('open', () => console.log(chalk.bgHex('#14AA52').hex('#FFFFFF')(' Connected ') + (' to MongoDB instance')))
   .on('error', error => console.log('Error connecting to MongoDB:', error));
 
 app.use(express.json());
